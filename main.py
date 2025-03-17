@@ -1,3 +1,4 @@
+# Import File
 import cv2
 import matplotlib.pyplot as plt
 import findImage
@@ -6,9 +7,9 @@ import colorImagePreprocessing
 import saveMatrices
 import equalizationHistogram
 import normalizationHistogram
+import lowPassFunction
 
 
-# Import File
 image = findImage.findImage()
 
 # Area of Interest (ROI) Box
@@ -29,6 +30,7 @@ while True:
     print("List of Program")
     print("1. Histogram Equalization")
     print("2. Histogram Normalization")
+    print("3. Spatial Filtering")
     # Add a New Technique
     print("Exit")
     
@@ -70,6 +72,41 @@ while True:
             # is too bright, or just need the non ROI to be as close
             # as background color
 
+        case 3:
+            print("List of Spatial Filtering")
+            print("1. Low Pass: Normal Average")
+            print("2. Low Pass: Weighted Average (Gaussian)")
+            print("3. Low Pass: Median")
+            print("4. Low Pass: Bilateral")
+            # Low pass is use to smoothing the value of one pixel by taking a look at the neighboring pixels
+            print("Exit")
+            spatialChoice = input("Which Spatial Filtering are you planning to use?\n>> ").strip().lower()
+
+            if spatialChoice == "exit":
+                break
+
+            try:
+                spatialChoice = int(spatialChoice)
+            except ValueError:
+                print("Please re-input your choice...")
+                continue
+
+            match spatialChoice:
+                case 1:
+                    print("Calculating...\n")
+                    lowPassFunction.normalMean(roiGray)
+
+                case 2:
+                    print("Calculating...\n")
+                    lowPassFunction.gaussianMean(roiGray)
+
+                case 3:
+                    print("Calculating...\n")
+                    lowPassFunction.median(roiGray)
+
+                case 4:
+                    print("Calculating...\n")
+                    lowPassFunction.bilateral(roiGray)
         case _:
             print("Hmm... Please, try again")
 
