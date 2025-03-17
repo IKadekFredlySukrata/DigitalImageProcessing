@@ -74,11 +74,14 @@ while True:
 
         case 3:
             print("List of Spatial Filtering")
+            print("Smooting Filters")
+            # Low pass is use to smoothing the value of one pixel by taking a look at the neighboring pixels
             print("1. Low Pass: Normal Average")
             print("2. Low Pass: Weighted Average (Gaussian)")
             print("3. Low Pass: Median")
             print("4. Low Pass: Bilateral")
-            # Low pass is use to smoothing the value of one pixel by taking a look at the neighboring pixels
+            print("Sharpenning Filter")
+            # High pass is used to increase the sharpness value
             print("Exit")
             spatialChoice = input("Which Spatial Filtering are you planning to use?\n>> ").strip().lower()
 
