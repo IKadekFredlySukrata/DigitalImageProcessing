@@ -1,0 +1,1 @@
+G:\My Drive\1 Fredly Sukrata\1 Kuliah\Semester 4\3 Pengolahan Citra Digital\2 Tasks\PCD Code\

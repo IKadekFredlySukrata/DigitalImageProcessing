@@ -1,9 +1,11 @@
 import cv2
+import matplotlib.pyplot as plt
 import findImage
 import grayImagePreprocessing
 import colorImagePreprocessing
 import saveMatrices
 import equalizationHistogram
+import normalizationHistogram
 
 
 # Import File
@@ -43,15 +45,30 @@ while True:
 
     match choice:
         case 1:
+            # Showing Histogram Equalization Equation using cv2
+            mathEquation = cv2.imread("HistogramEqualizationFormula.png")
+            cv2.imshow("Histogram Equation Formula", mathEquation)
+            
             print("Calculating...\nAnd these are the results")
             equalizationHistogram.equalizeHistogram(roiGray)
             # This equalization done in order to get more information out
             # from an image, cause sometimes the detail is hiding in between
             # the contrast...
+            # Which basically increasing the brightness goes brrr...
 
         case 2:
+            # Showing Histogram Normalization Formula using mathplot
+            mathEquation = plt.imread("HistogramNormalizationFormula.png")
+            plt.imshow(mathEquation)
+            plt.axis("off")
+            plt.show()
+            
             print("Calculating...\nAnd these are the results")
-
+            normalizationHistogram.normalizeHistogram(roiGray)
+            # This equation done also in order to get more information
+            # from an image by increasing the contrast, if the image
+            # is too bright, or just need the non ROI to be as close
+            # as background color
 
         case _:
             print("Hmm... Please, try again")
