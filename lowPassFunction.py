@@ -1,26 +1,33 @@
 import cv2
-import matplotlib.pyplot as plt
 import showImages
+import lowPassManualCalculation
 
 def normalMean(image):
     print("\nLow Pass: Normal Average")
     blurValue = int(input("\nFrom 1 - 25, please choose how hard the blur would be\n>> "))
 
     normalAverageBlur = cv2.blur(image, (blurValue, blurValue))
+    normalAverageBlurManualCalculation = lowPassManualCalculation.lowPassNormalMeanCalculation(image, blurValue)
 
-    showImages.twoImages(image, normalAverageBlur)
+    showImages.threeImages(image, normalAverageBlur, normalAverageBlurManualCalculation)
 
 def gaussianMean(image):
     print("\nLow Pass: Weighted Average (Gaussian)")
     
-    blurValue = int(input("\nFrom 1 - 25, please choose how hard the blur would be (odd numbers only)\n>> "))
-
-    if blurValue % 2 == 0:
-        blurValue += 1
-
+    while True:
+        try:
+            blurValue = int(input("\nPlease choose how hard the blur would be (3, 5, 7)\n>> ").strip())
+            if blurValue in [3, 5, 7]:  
+                break
+            else:
+                print("Invalid input! Please enter 3, 5, or 7.")
+        except ValueError:
+            print("Invalid input! Please enter a number (3, 5, or 7).")
+    
     gaussionAverageBlur = cv2.GaussianBlur(image, (blurValue, blurValue), 0)
+    gaussionAverageBlurManualCalculation = lowPassManualCalculation.lowPassGaussianMean(image, blurValue)
 
-    showImages.twoImages(image, gaussionAverageBlur)
+    showImages.threeImages(image, gaussionAverageBlur, gaussionAverageBlurManualCalculation)
 
 def median(image):
     print("\nLow Pass: Median")
