@@ -7,7 +7,7 @@ def normalMean(image):
     blurValue = int(input("\nFrom 1 - 25, please choose how hard the blur would be\n>> "))
 
     normalAverageBlur = cv2.blur(image, (blurValue, blurValue))
-    normalAverageBlurManualCalculation = lowPassManualCalculation.lowPassNormalMeanCalculation(image, blurValue)
+    normalAverageBlurManualCalculation = lowPassManualCalculation.lowPassNormalMean(image, blurValue)
 
     showImages.threeImages(image, normalAverageBlur, normalAverageBlurManualCalculation)
 
@@ -32,26 +32,28 @@ def gaussianMean(image):
 def median(image):
     print("\nLow Pass: Median")
 
-    blurValue = int(input("\nPlease Choose the Value (1, 9, 25)\n>> "))
+    blurValue = int(input("\nPlease Choose the Value (3, 5, 7)\n>> "))
 
-    if blurValue not in [1, 9, 25]:
+    if blurValue not in [3, 5, 7, 9, 11, 25]:
         print("Please input the supportted value")
         median(image)
     
     medianBlur = cv2.medianBlur(image, blurValue)
+    medianBlurManualCalculation = lowPassManualCalculation.lowPassMedian(image, blurValue)
 
-    showImages.twoImages(image, medianBlur)
+    showImages.threeImages(image, medianBlur, medianBlurManualCalculation)
 
 def bilateral(image):
     print("\nLow Pass: Bilateral")
 
-    blurValue = int(input("\nPlease Choose the Value (1, 9, 25)\n>> "))
+    blurValue = int(input("\nPlease Choose the Value (3, 5, 7)\n>> "))
 
-    if blurValue not in [1, 9, 25]:
+    if blurValue not in [3, 5, 7, 9, 11, 25]:
         print("Please input the supportted value")
         bilateral(image)
 
     bilateralBlur = cv2.bilateralFilter(image, blurValue, 75, 75)
+    bilateralBlurManualCalculation = lowPassManualCalculation.lowPassBilateral(image, blurValue, 75, 75)
 
-    showImages.twoImages(image, bilateralBlur)
+    showImages.threeImages(image, bilateralBlur, bilateralBlurManualCalculation)
     

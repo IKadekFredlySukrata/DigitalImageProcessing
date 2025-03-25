@@ -1,6 +1,6 @@
 import numpy as np
 
-def lowPassNormalMeanCalculation(image, windowSize):
+def lowPassNormalMean(image, windowSize):
     # Window Size Calculation
     windowSize = (windowSize - 1) // 2
 
@@ -68,3 +68,46 @@ def lowPassGaussianMean(image, windowSize):
             result[i - halfWindowSize, j - halfWindowSize] = pixelResult
 
     return result
+
+def lowPassMedian(image, windowSize):
+    halfWindowSize = (windowSize - 1) // 2
+    
+    image = np.pad(image, pad_width=halfWindowSize, mode='constant', constant_values=0)
+    height, width = image.shape
+    
+    result = np.zeros((height - 2 * halfWindowSize, width - 2 * halfWindowSize))
+    
+    for i in range(halfWindowSize, height - halfWindowSize):
+        for j in range(halfWindowSize, width - halfWindowSize):
+            window = image[i - halfWindowSize : i + halfWindowSize + 1,
+                           j - halfWindowSize : j + halfWindowSize + 1]
+            
+            result[i - halfWindowSize, j - halfWindowSize] = np.median(window)
+
+            
+    return result
+
+def lowPassBilateral(image, windowSize, sigmaSpatial, sigmaIntensity):
+    halfWindowSize = (windowSize - 1) // 2
+    image = image.astype(np.float32)
+    image = np.pad(image, pad_width=halfWindowSize, mode='reflect')
+
+    height, width = image.shape
+    result = np.zeros((height - 2 * halfWindowSize, width - 2 * halfWindowSize), dtype=np.float32)
+
+    x, y = np.mgrid[-halfWindowSize: halfWindowSize + 1, -halfWindowSize: halfWindowSize + 1]
+    spatialGaussian = np.exp(-(x**2 + y**2) / (2 * sigmaSpatial**2))
+
+    for i in range(halfWindowSize, height - halfWindowSize):
+        for j in range(halfWindowSize, width - halfWindowSize):
+            window = image[i - halfWindowSize: i + halfWindowSize + 1, j - halfWindowSize: j + halfWindowSize + 1]
+
+            intensityDiff = window - image[i, j]
+            intensityGaussian = np.exp(-(intensityDiff**2) / (2 * sigmaIntensity**2))
+
+            bilateralWeights = spatialGaussian * intensityGaussian
+            bilateralWeights /= np.sum(bilateralWeights)
+            
+            result[i - halfWindowSize, j - halfWindowSize] = np.sum(window * bilateralWeights)
+
+    return result.astype(np.uint8)

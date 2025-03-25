@@ -8,6 +8,7 @@ import saveMatrices
 import equalizationHistogram
 import normalizationHistogram
 import lowPassFunction
+import showImages
 
 
 image = findImage.findImage()
@@ -52,7 +53,8 @@ while True:
             cv2.imshow("Histogram Equation Formula", mathEquation)
             
             print("Calculating...\nAnd these are the results")
-            equalizationHistogram.equalizeHistogram(roiGray)
+            beforeImage, afterImageLibraryCalculation, afterImageManualCalculation = equalizationHistogram.equalizeHistogram(roiGray)
+            showImages.threeImagesWithHistogram(beforeImage, afterImageLibraryCalculation, afterImageManualCalculation)
             # This equalization done in order to get more information out
             # from an image, cause sometimes the detail is hiding in between
             # the contrast...
@@ -66,7 +68,8 @@ while True:
             plt.show()
             
             print("Calculating...\nAnd these are the results")
-            normalizationHistogram.normalizeHistogram(roiGray)
+            beforeImage, afterImageLibraryCalculation, afterImageManualCalculation = normalizationHistogram.normalizeHistogram(roiGray)
+            showImages.threeImagesWithHistogram(beforeImage, afterImageLibraryCalculation, afterImageManualCalculation)
             # This equation done also in order to get more information
             # from an image by increasing the contrast, if the image
             # is too bright, or just need the non ROI to be as close
